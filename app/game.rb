@@ -12,9 +12,9 @@ end
 class GameMap
   attr_accessor :w, :h
 
-  def initialize (w, h)
-    self.w = w
-    self.h = h
+  def initialize args
+    self.w = args.w || (1280.div(16))
+    self.h = args.h || (720.div(16))
     self.tiles = []
 
     (0..h).each |y|  do
@@ -26,6 +26,6 @@ class GameMap
   end
 
   def render
-    arr = []
+    self.tiles
   end
 end
