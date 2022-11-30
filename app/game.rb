@@ -25,6 +25,18 @@ class GameMap
     end
   end
 
+  def loadfile filepath
+    file = File.open(filepath)
+    lines = file.readlines()
+    lines.each_with_index do |line, line_index|
+      line.chomp().split("").each_with_index do |char, char_index|
+        if char == "."
+          self.tiles[line_index][char_index].path = 'sprites/tile/wall-0000.png'
+        end
+      end
+    end
+  end
+
   def render
     self.tiles
   end
