@@ -1,5 +1,9 @@
 def tick args
-  args.outputs.primitives  << (GameMap.new({})).render
+  args.state.gmap ||= GameMap.new({})
+  if args.tick_count <= 0
+    args.state.gmap.loadfile('app/map.dat')
+  end
+  args.outputs.primitives  << args.state.gmap.render()
 end
 
 # TODO: Create Game Map
