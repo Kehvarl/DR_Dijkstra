@@ -4,6 +4,7 @@
 
 # Load classes here
 require 'app/game.rb'
+require 'app/entity.rb'
 
 
 # Do this last so you know all your classes are loaded before the game starts
