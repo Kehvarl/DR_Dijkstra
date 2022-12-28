@@ -24,4 +24,23 @@ class Entity
       end
     end
     bx, by
+  end
+
+  def calc_map()
+    visited = Set.new
+    q = Queue.new
+    q.push((self.x, self.y))
+    while not q.empty?
+      x,y = q.pop()
+      v = self.grid[(x,y)]
+      visited.add((x,y))
+      [y-1,y,y+1].each do |ny|
+        [x-1,x,x+1].each do |nx|
+          if (nx,ny) not in visited:
+            self.grid[(nx,ny)] = v + 1
+            q.push((nx, ny))
+          end
+        end
+    end
+  end
 end
