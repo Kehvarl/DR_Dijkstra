@@ -37,7 +37,8 @@ class Entity
       [y-1,y,y+1].each do |ny|
         [x-1,x,x+1].each do |nx|
           if (nx,ny) not in visited:
-            self.grid[(nx,ny)] = v + 1
+            g = self.grid[(nx,ny)]||100
+            self.grid[(nx,ny)] = [v+1,g].min
             q.push((nx, ny))
           end
         end
