@@ -26,6 +26,10 @@ class Entity
     bx, by
   end
 
+  def in_fov(x,y)
+    (abs(x - self.x) + abs(y - self.y)) < 10
+  end
+
   def calc_map()
     visited = Set.new
     q = Queue.new
@@ -39,7 +43,9 @@ class Entity
           if (nx,ny) not in visited:
             g = self.grid[(nx,ny)]||100
             self.grid[(nx,ny)] = [v+1,g].min
-            q.push((nx, ny))
+            if in_fov(nx, ny)
+              q.push((nx, ny))
+            end 
           end
         end
     end
