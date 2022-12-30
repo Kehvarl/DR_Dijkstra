@@ -1,3 +1,53 @@
+class Dijkstra
+  attr_accessor :goals, :grid
+  
+  def initialize args
+    self.goals = []
+    self.grid = {}
+    end
+
+    def get_move(x,y)
+      best = 100
+      bx, by = 0,0
+      [y-1,y,y+1].each do |ny|
+        [x-1,x,x+1].each do |nx|
+          if nx != x or ny != y
+            if (self.grid[(x,y)]||100) < best
+              best = self.grid[(x,y)]
+              bx = nx
+              by = ny
+          end
+        end
+      end
+      bx, by
+    end
+
+    def in_fov(x,y)
+      (abs(x - self.x) + abs(y - self.y)) < 10
+    end
+
+    def calc_map()
+      visited = Set.new
+      q = Queue.new
+      q.push((self.x, self.y))
+      while not q.empty?
+        x,y = q.pop()
+        v = self.grid[(x,y)]
+        visited.add((x,y))
+        [y-1,y,y+1].each do |ny|
+          [x-1,x,x+1].each do |nx|
+            if (nx,ny) not in visited:
+              g = self.grid[(nx,ny)]||100
+              self.grid[(nx,ny)] = [v+1,g].min
+              if in_fov(nx, ny)
+                q.push((nx, ny))
+              end
+            end
+          end
+      end
+    end
+end
+
 class Entity
   attr_sprite
   def initialize args
@@ -8,46 +58,5 @@ class Entity
     self.path = args.path || 'sprites/circle/orange.png'
     self.goals = []
     self.grid = {}
-  end
-
-  def get_move()
-    best = 100
-    bx, by = 0,0
-    [self.y-1,self.y,self.y+1].each do |y|
-      [self.x-1,self.x,self.x+1].each do |x|
-        if x != self.x or y != self.y
-          if (self.grid[(x,y)]||100) < best
-            best = self.grid[(x,y)]
-            bx = x
-            by = y
-        end
-      end
-    end
-    bx, by
-  end
-
-  def in_fov(x,y)
-    (abs(x - self.x) + abs(y - self.y)) < 10
-  end
-
-  def calc_map()
-    visited = Set.new
-    q = Queue.new
-    q.push((self.x, self.y))
-    while not q.empty?
-      x,y = q.pop()
-      v = self.grid[(x,y)]
-      visited.add((x,y))
-      [y-1,y,y+1].each do |ny|
-        [x-1,x,x+1].each do |nx|
-          if (nx,ny) not in visited:
-            g = self.grid[(nx,ny)]||100
-            self.grid[(nx,ny)] = [v+1,g].min
-            if in_fov(nx, ny)
-              q.push((nx, ny))
-            end 
-          end
-        end
-    end
   end
 end
