@@ -1,51 +1,54 @@
 class Dijkstra
-  attr_accessor :goals, :grid
-  
+  attr_accessor :w, :h, :goals, :grid
+
   def initialize args
+    self.w = args.w || 10
+    self.h = args.h || 10
     self.goals = []
     self.grid = {}
-    end
+  end
 
-    def get_move(x,y)
-      best = 100
-      bx, by = 0,0
+
+  def in_map(x,y)
+    (0 <= x < self.w) && (0 <= y < self.h)
+  end
+
+  def calc_map
+    visited = {}
+    q = []
+    q << self.goals[0]
+    while q.length > 0
+      x,y = q.shift()
+      v = self.grid[[x,y]]
+      visited[[x,y]] = 0
       [y-1,y,y+1].each do |ny|
         [x-1,x,x+1].each do |nx|
-          if nx != x or ny != y
-            if (self.grid[(x,y)]||100) < best
-              best = self.grid[(x,y)]
-              bx = nx
-              by = ny
+          if !visited.has_key?([x,y])
+            #g = (self.grid & [[x,y]]).first || 100
+            self.grid[[nx,ny]] = v + 1
+            if in_map(nx, ny)
+              q << [nx, ny]
+            end
           end
         end
       end
-      bx, by
     end
+  end
 
-    def in_fov(x,y)
-      (abs(x - self.x) + abs(y - self.y)) < 10
-    end
-
-    def calc_map()
-      visited = Set.new
-      q = Queue.new
-      q.push((self.x, self.y))
-      while not q.empty?
-        x,y = q.pop()
-        v = self.grid[(x,y)]
-        visited.add((x,y))
-        [y-1,y,y+1].each do |ny|
-          [x-1,x,x+1].each do |nx|
-            if (nx,ny) not in visited:
-              g = self.grid[(nx,ny)]||100
-              self.grid[(nx,ny)] = [v+1,g].min
-              if in_fov(nx, ny)
-                q.push((nx, ny))
-              end
-            end
-          end
+  def render
+    out = []
+    (0..self.h).each do |y|
+      (0..self.w).each do |x|
+        if self.grid.has_key?([x,y])
+          c = self.grid[[x,y]]
+        else
+          c = 255
+        end
+        out << [x*16+640,y*16+320,16,16,c,c,c]
       end
     end
+    out
+  end
 end
 
 class Entity
