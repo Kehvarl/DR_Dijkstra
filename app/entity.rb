@@ -4,7 +4,7 @@ class Dijkstra
   def initialize args
     self.w = args.w || 10
     self.h = args.h || 10
-    self.goals = []
+    self.goals = args.goals || []
     self.grid = {}
   end
 
@@ -14,18 +14,20 @@ class Dijkstra
   end
 
   def calc_map
-    visited = {}
+    visited = []
     q = []
     q << self.goals[0]
     while q.length > 0
       x,y = q.shift()
-      v = self.grid[[x,y]]
-      visited[[x,y]] = 0
+      v = 100
+      if self.grid.has_key?([x,y])
+        v = self.grid[[x,y]] + 1
+      end
+      visited << [x,y]
       [y-1,y,y+1].each do |ny|
         [x-1,x,x+1].each do |nx|
-          if !visited.has_key?([x,y])
-            #g = (self.grid & [[x,y]]).first || 100
-            self.grid[[nx,ny]] = v + 1
+          if !visited.include?([x,y])
+            self.grid[[nx,ny]] = v
             if in_map(nx, ny)
               q << [nx, ny]
             end
