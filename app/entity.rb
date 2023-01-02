@@ -3,14 +3,14 @@ class Dijkstra
 
   def initialize args
     self.w = args.w || 10
-    self.h = args.h || 10
+    self.h = args.h || 12
     self.goals = args.goals || []
     self.grid = {}
   end
 
 
   def in_map(x,y)
-    (0 <= x < self.w) && (0 <= y < self.h)
+    x.between?(0, self.w) and y.between?(0, self.h)
   end
 
   def calc_map
@@ -19,8 +19,9 @@ class Dijkstra
     self.goals.each do |goal|
       q << [0, goal[0], goal[1]]
     end
+
     while q.length > 0
-      score, x, y = q
+      score, x, y = q.pop()
       visited << [x,y]
 
       if grid.has_key?([x,y])
