@@ -16,21 +16,27 @@ class Dijkstra
   def calc_map
     visited = []
     q = []
-    q << self.goals[0]
+    self.goals.each do |goal|
+      q << [0, goal[0], goal[1]]
+    end
     while q.length > 0
-      x,y = q.shift()
-      v = 100
-      if self.grid.has_key?([x,y])
-        v = self.grid[[x,y]] + 1
-      end
+      score, x, y = q
       visited << [x,y]
-      [y-1,y,y+1].each do |ny|
-        [x-1,x,x+1].each do |nx|
-          if !visited.include?([x,y])
-            self.grid[[nx,ny]] = v
-            if in_map(nx, ny)
-              q << [nx, ny]
-            end
+
+      if grid.has_key?([x,y])
+        t = grid[[x,y]]
+        grid[[x,y]] = [score, t].min()
+      else
+        grid[[x,y]] = score
+      end
+
+      [[-1,0],[1,0],[0,-1],[0,1]].each do |n|
+        dx, dy = n
+        nx = x + dx
+        ny = y + dy
+        if in_map(nx, ny)
+          if !visited.include?([nx,ny])
+            q << [score + 1, nx, ny]
           end
         end
       end
