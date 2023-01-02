@@ -15,7 +15,7 @@
 
 
 def tick args
-  args.state.d ||= Dijkstra.new({goals: [5,5]})
+  args.state.d ||= Dijkstra.new({goals: [[5,5]]})
   args.state.d.calc_map()
   args.outputs.solids << args.state.d.render()
 end
