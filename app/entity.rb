@@ -1,16 +1,21 @@
 class Dijkstra
-  attr_accessor :w, :h, :goals, :grid
+  attr_accessor :w, :h, :goals, :grid, :game_map
 
   def initialize args
     self.w = args.w || 10
     self.h = args.h || 12
     self.goals = args.goals || []
     self.grid = {}
+    self.game_map = args.game_map || false
   end
 
 
   def in_map(x,y)
-    x.between?(0, self.w) and y.between?(0, self.h)
+    if self.game_map
+      self.game_map.in_map(x,y)
+    else
+      x.between?(0, self.w) and y.between?(0, self.h)
+    end
   end
 
   def calc_map
@@ -23,9 +28,10 @@ class Dijkstra
     while q.length > 0
       score, x, y = q.pop()
       visited << [x,y]
-
+      revisit = false
       if grid.has_key?([x,y])
         t = grid[[x,y]]
+        revisit = (t > score)
         grid[[x,y]] = [score, t].min()
       else
         grid[[x,y]] = score
@@ -53,7 +59,7 @@ class Dijkstra
         else
           c = 255
         end
-        out << [x*16+640,y*16+320,16,16,c,c,c]
+        out << [x*16+640,y*16+320,16,16,c*16%255,c*8%255,c]
       end
     end
     out

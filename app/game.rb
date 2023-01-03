@@ -1,11 +1,13 @@
 class Tile
   attr_sprite
+  attr_accessor :block
   def initialize args
     self.w = args.w || 32
     self.h = args.h || 32
     self.x = args.x || 0
     self.y = args.y || 0
     self.path = args.path || 'sprites/tile/wall-1111.png'
+    self.block = args.block || true
   end
 end
 
@@ -25,6 +27,10 @@ class GameMap
     end
   end
 
+  def in_map(x,y)
+    x.between?(0, self.w) and y.between?(0, self.h) and (!self.tiles[y][x].block)
+  end
+
   def loadfile filepath
     file = File.open(filepath)
     lines = file.readlines()
@@ -32,6 +38,7 @@ class GameMap
       line.chomp().split("").each_with_index do |char, char_index|
         if char == "."
           self.tiles[line_index][char_index].path = 'sprites/tile/wall-0000.png'
+          self.tiles[line_index][char_index].block = false
         end
       end
     end
