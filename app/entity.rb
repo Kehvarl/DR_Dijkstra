@@ -2,11 +2,16 @@ class Dijkstra
   attr_accessor :w, :h, :goals, :grid, :game_map
 
   def initialize args
-    self.w = args.w || 10
-    self.h = args.h || 12
+    self.game_map = args.game_map || false
+    if game_map
+      self.w = self.game_map.w
+      self.h = self.game_map.h
+    else
+      self.w = args.w || 10
+      self.h = args.h || 12
+    end
     self.goals = args.goals || []
     self.grid = {}
-    self.game_map = args.game_map || false
   end
 
 
@@ -50,6 +55,22 @@ class Dijkstra
     end
   end
 
+  def render_map
+    (0..self.h).each do |y|
+      (0..self.w).each do |x|
+        if self.grid.has_key?([x,y])
+          c = self.grid[[x,y]]
+        else
+          c = 255
+        end
+        self.game_map.tiles[y][x].r = c * 8 % 255
+        self.game_map.tiles[y][x].g = c * 8 % 255
+        self.game_map.tiles[y][x].b = c * 16 % 255
+
+      end
+    end
+  end
+
   def render
     out = []
     (0..self.h).each do |y|
@@ -65,6 +86,7 @@ class Dijkstra
     out
   end
 end
+
 
 class Entity
   attr_sprite
