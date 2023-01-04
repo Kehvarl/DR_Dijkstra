@@ -32,8 +32,9 @@ class GameMap
   end
 
   def loadfile filepath
-    file = File.open(filepath)
-    lines = file.readlines()
+    f = File.open(filepath)
+    lines = f.readlines()
+    f.close()
     lines.each_with_index do |line, line_index|
       line.chomp().split("").each_with_index do |char, char_index|
         if char == "."
