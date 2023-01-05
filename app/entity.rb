@@ -58,15 +58,12 @@ class Dijkstra
   def render_map
     (0..self.h).each do |y|
       (0..self.w).each do |x|
-        if self.grid.has_key?([x,y])
+        if in_map(x,y) and self.grid.has_key?([x,y])
           c = self.grid[[x,y]]
-        else
-          c = 255
+          self.game_map.tiles[y][x].b = c  * 16
+          self.game_map.tiles[y][x].g = c*16 #- (c * 1 % 255)
+          self.game_map.tiles[y][x].r = c*16 #- (c * 1 % 255)
         end
-        self.game_map.tiles[y][x].r = c * 8 % 255
-        self.game_map.tiles[y][x].g = c * 8 % 255
-        self.game_map.tiles[y][x].b = c * 16 % 255
-
       end
     end
   end
