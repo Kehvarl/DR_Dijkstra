@@ -1,6 +1,6 @@
 def tick args
   args.state.gmap ||= GameMap.new({})
-  args.state.d ||= Dijkstra.new({game_map: args.state.gmap, goals: [[8,8]]})
+  args.state.d ||= Dijkstra.new({game_map: args.state.gmap, goals: [[9,9]]})
   if args.tick_count <= 0
     args.state.gmap.loadfile('mygame/app/map.dat')
     args.state.d.calc_map

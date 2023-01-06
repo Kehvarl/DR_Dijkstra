@@ -60,9 +60,10 @@ class Dijkstra
       (0..self.w).each do |x|
         if in_map(x,y) and self.grid.has_key?([x,y])
           c = self.grid[[x,y]]
-          self.game_map.tiles[y][x].b = c  * 16
-          self.game_map.tiles[y][x].g = c*16 #- (c * 1 % 255)
-          self.game_map.tiles[y][x].r = c*16 #- (c * 1 % 255)
+          self.game_map.tiles[y][x] = LabelTile.new({x: (x*32)+16, y: (y*32)+32, text: c, block:false})
+          #self.game_map.tiles[y][x].b = c *  4 % 255
+          #self.game_map.tiles[y][x].g = c *  2 % 255 
+          #self.game_map.tiles[y][x].r = c *  1 % 255
         end
       end
     end
