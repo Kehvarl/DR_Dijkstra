@@ -47,7 +47,7 @@ class Dijkstra
         nx = x + dx
         ny = y + dy
         if in_map(nx, ny)
-          if !visited.include?([nx,ny])
+          if !visited.include?([nx,ny]) or revisit
             q << [score + 1, nx, ny]
           end
         end
@@ -58,7 +58,7 @@ class Dijkstra
   def render_map
     (0..self.h).each do |y|
       (0..self.w).each do |x|
-        if in_map(x,y) and self.grid.has_key?([x,y])
+        if self.grid.has_key?([x,y])
           c = self.grid[[x,y]]
           self.game_map.tiles[y][x] = LabelTile.new({x: (x*32)+16, y: (y*32)+32, text: c, block:false})
           #self.game_map.tiles[y][x].b = c *  4 % 255
