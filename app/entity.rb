@@ -14,7 +14,6 @@ class Dijkstra
     self.grid = {}
   end
 
-
   def in_map(x,y)
     if self.game_map
       self.game_map.in_map(x,y)
@@ -24,14 +23,16 @@ class Dijkstra
   end
 
   def calc_map
+    nodes = goals.length
+    self.grid = {}
     visited = []
     q = []
     self.goals.each do |goal|
-      q << [0, goal[0], goal[1]]
+      q.push([0, goal[0], goal[1]])
     end
 
     while q.length > 0
-      score, x, y = q.pop()
+      score, x, y = q.shift()
       visited << [x,y]
       revisit = false
       if grid.has_key?([x,y])
@@ -48,26 +49,40 @@ class Dijkstra
         ny = y + dy
         if in_map(nx, ny)
           if !visited.include?([nx,ny]) or revisit
-            q << [score + 1, nx, ny]
+            q.push([score + 1, nx, ny])
+            nodes +=1
           end
         end
       end
     end
+    puts(nodes)
   end
 
-  def render_map
-    (0..self.h).each do |y|
-      (0..self.w).each do |x|
-        if self.grid.has_key?([x,y])
-          c = self.grid[[x,y]]
-          self.game_map.tiles[y][x] = LabelTile.new({x: (x*32)+16, y: (y*32)+32, text: c, block:false})
-          #self.game_map.tiles[y][x].b = c *  4 % 255
-          #self.game_map.tiles[y][x].g = c *  2 % 255 
-          #self.game_map.tiles[y][x].r = c *  1 % 255
+  def get_moves x,y
+    best = []
+    lowest = grid[[x,y]] || 100
+    [[-1,0],[1,0],[0,-1],[0,1]].each do |n|
+      dx, dy = n
+      nx = x + dx
+      ny = y + dy
+      if grid.has_key?([nx,ny])
+        if grid[[nx,ny]] < lowest
+          best = [[nx,ny]]
+          lowest = grid[[nx,ny]]
+        elsif grid[[nx,ny]] == lowest
+          best << [nx,ny]
         end
       end
     end
+    return best
   end
+
+  def render_map
+    self.grid.each do |node, score|
+      x,y = node
+      self.game_map.tiles[y][x] = LabelTile.new({x: (x*32)+16, y: (y*32)+32, text: score, block:false})
+    end
+  end 
 
   def render
     out = []
