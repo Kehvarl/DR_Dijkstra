@@ -5,6 +5,9 @@ def tick args
     args.state.gmap.loadfile('mygame/app/map.dat')
     args.state.d.calc_map
   end
+  if args.inputs.keyboard.key_up.r
+    args.state.d.calc_map
+  end
   args.state.d.render_map()
   args.outputs.primitives  << args.state.gmap.render()
 end
