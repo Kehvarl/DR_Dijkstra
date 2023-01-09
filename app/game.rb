@@ -61,7 +61,7 @@ class GameMap
     (0..h).each do |y|
       self.tiles[y] = []
       (0..w).each do |x|
-        self.tiles[y][x] = SolidTile.new({x: x*32, y: y*32, r:128, g:128, b:128})
+        self.tiles[y][x] = Tile.new({x: x*32, y: y*32, r:128, g:128, b:128})
       end
     end
   end
