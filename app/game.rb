@@ -77,15 +77,42 @@ class GameMap
     lines.each_with_index do |line, line_index|
       line.chomp().split("").each_with_index do |char, char_index|
         if char == "."
-          #self.tiles[line_index][char_index].path = 'sprites/tile/wall-0000.png'
-          self.tiles[line_index][char_index].r = 255
-          self.tiles[line_index][char_index].g = 255
-          self.tiles[line_index][char_index].b = 255
-
+          self.tiles[line_index][char_index].path = 'sprites/tile/wall-0000.png'
           self.tiles[line_index][char_index].block = false
         end
       end
     end
+    self.regen_sprites
+  end
+
+  def get_sprite (x,y)
+    if self.tiles[y][x].block
+      return "0000"
+    end
+    #TRBL
+    val = "0000"
+    if y == 0 or self.tiles[y-1][x].block # Bottom
+      val[2] = "1"      
+    end
+    if y >= self.h-1 or self.tiles[y+1][x].block #Top
+      val[0] = "1"      
+    end
+    if x == 0 or self.tiles[y][x-1].block # Left
+      val[3] = "1"
+    end
+    if x >= self.w-1 or self.tiles[y][x+1].block # Right
+      val[1] = "1"
+    end
+    val
+  end
+
+  def regen_sprites
+    (0..h).each do |y|
+      (0..w).each do |x|
+        self.tiles[y][x].path = "sprites/tile/wall-#{get_sprite(x,y)}.png"
+      end
+    end
+    
   end
 
   def render
