@@ -8,8 +8,9 @@ def tick args
   if args.inputs.keyboard.key_up.r
     args.state.d.calc_map
   end
-  #args.state.d.render_map()
+  overlay = args.state.d.render_map()
   args.outputs.primitives  << args.state.gmap.render()
+  args.outputs.primitives << overlay
 end
 
 # TODO: Create Game Map
