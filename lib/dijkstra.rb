@@ -78,10 +78,12 @@ class Dijkstra
   end
 
   def render_map
+    overlay = []
     self.grid.each do |node, score|
       x,y = node
-      self.game_map.tiles[y][x] = LabelTile.new({x: (x*32)+16, y: (y*32)+32, text: score, block:false})
+      overlay <<  LabelTile.new({x: (x*32)+16, y: (y*32)+32, text: score, block:false})
     end
+    overlay
   end 
 
   def render
