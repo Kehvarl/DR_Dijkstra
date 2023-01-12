@@ -25,26 +25,18 @@ class SolidTile
     self.b = args.b || 0
     self.a = args.a || 255
 
+    if args.value
+      self.setcolor(args.value)
+    end
+
     self.block = args.block || true
   end
 
-  def hue_name_from_hue_value(hue_value)
-    color_angle = hue_value * 360
-
-    if color_angle.between?(31, 90)
-        return HUE_LIST[:YELLOW]
-    elsif color_angle.between?(91,150)
-        return HUE_LIST[:GREEN]
-    elsif color_angle.between?(151,210)
-        return HUE_LIST[:CYAN]
-    elsif color_angle.between?(211,270)
-        return HUE_LIST[:BLUE]
-    elsif color_angle.between?(271,330)
-        return HUE_LIST[:MAGENTA]
-    else
-        return HUE_LIST[:RED]
-    end
-  end 
+  def setcolor value
+    self.g = (255-(value*3))
+    self.r = value*2
+    self.a = 128
+  end
 
   def primitive_marker
     :solid

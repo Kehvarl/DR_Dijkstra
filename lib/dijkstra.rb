@@ -81,7 +81,8 @@ class Dijkstra
     overlay = []
     self.grid.each do |node, score|
       x,y = node
-      overlay <<  LabelTile.new({x: (x*32)+16, y: (y*32)+32, text: score, block:false})
+      overlay << SolidTile.new({x:x*32, y:y*32, value:score, block:false})
+      overlay << LabelTile.new({x: (x*32)+16, y: (y*32)+32, text: score, block:false})
     end
     overlay
   end 
