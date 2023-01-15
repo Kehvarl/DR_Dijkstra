@@ -9,7 +9,9 @@ def tick args
     p "done"
   end
   if args.inputs.keyboard.key_up.r
+    p "calculating"
     args.state.d.calc_map
+    p "done"
   end
   overlay = args.state.d.render_map()
   args.outputs.primitives  << args.state.gmap.render()
