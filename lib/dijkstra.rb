@@ -27,8 +27,9 @@ class Dijkstra
     self.grid = {}
     visited = []
     q = []
-    self.goals.each do |goal|
-      q.push([0, goal[0], goal[1]])
+    self.goals.each do |(gx,gy)|
+      q.push([0, gx, gy])
+      visited << [gx,gy]
     end
 
     while q.length > 0
@@ -61,8 +62,7 @@ class Dijkstra
   def get_moves x,y
     best = []
     lowest = grid[[x,y]] || 100
-    [[-1,0],[1,0],[0,-1],[0,1]].each do |n|
-      dx, dy = n
+    [[-1,0],[1,0],[0,-1],[0,1]].each do |(dx,dy)|
       nx = x + dx
       ny = y + dy
       if grid.has_key?([nx,ny])
