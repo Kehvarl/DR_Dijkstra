@@ -282,7 +282,7 @@ end
 #  Advanced Arrays
 # ====================================================================================
 # Remove the x from xrepl to run the code. Add the x back to ignore to code.
-xrepl do
+repl do
   puts "======== All unique Pythagorean Triples between 1 and 40 sorted by area of the triangle."
 
   one_to_hundred = (1..40).to_a
