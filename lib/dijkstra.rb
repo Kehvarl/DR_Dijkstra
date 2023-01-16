@@ -25,16 +25,16 @@ class Dijkstra
   def calc_map
     nodes = goals.length
     self.grid = {}
-    visited = []
+    visited = {}
     q = []
     self.goals.each do |(gx,gy)|
       q.push([0, gx, gy])
-      visited << [gx,gy]
+      visited[[gx,gy]] = true
     end
 
     while q.length > 0
       score, x, y = q.shift()
-      visited << [x,y]
+      visited[[x,y]] = true
       revisit = false
       if grid.has_key?([x,y])
         t = grid[[x,y]]
@@ -49,7 +49,7 @@ class Dijkstra
         nx = x + dx
         ny = y + dy
         if in_map(nx, ny)
-          if !visited.include?([nx,ny]) or revisit
+          if !visited.has_key?([nx,ny]) or revisit
             q.push([score + 1, nx, ny])
             nodes +=1
           end
