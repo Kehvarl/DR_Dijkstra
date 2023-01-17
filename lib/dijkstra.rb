@@ -1,3 +1,12 @@
+# Dijkstra Map Calculator
+# Expects:
+#   game_map:  an object representing your game map.
+#     Must implement:
+#       in_map:  function accepting x, and y, and returns if the
+#                provided coordinate is a valid destination.
+#       w: Width of the map in destination nodes
+#       h: Height of the map in nodes
+#  goals: An array of [x,y] pairs representing desireable locations
 class Dijkstra
   attr_accessor :w, :h, :goals, :grid, :game_map
 
@@ -14,6 +23,7 @@ class Dijkstra
     self.grid = {}
   end
 
+  # Returns true if the given x,y position is a valid destination
   def in_map(x,y)
     if self.game_map
       self.game_map.in_map(x,y)
@@ -22,6 +32,7 @@ class Dijkstra
     end
   end
 
+  # Recalculate the Dijkstra Map.
   def calc_map
     nodes = goals.length
     self.grid = {}
@@ -59,6 +70,7 @@ class Dijkstra
     puts(nodes)
   end
 
+  # Given an x,y coordinate, return a list of possible next coordinates that are closer to a goal
   def get_moves x,y
     best = []
     lowest = grid[[x,y]] || 100
@@ -77,6 +89,7 @@ class Dijkstra
     return best
   end
 
+  # Draws the dijkstra map onto the screen - move to map routine
   def render_map
     overlay = []
     self.grid.each do |node, score|
@@ -87,6 +100,7 @@ class Dijkstra
     overlay
   end 
 
+  # Deprecated
   def render
     out = []
     (0..self.h).each do |y|
