@@ -131,4 +131,16 @@ class GameMap
   def render
     self.tiles
   end
+
+ 
+  # Draws the dijkstra map onto the screen - move to map routine
+  def render_map dijkstra
+    overlay = []
+    dijkstra.grid.each do |node, score|
+      x,y = node
+      overlay << SolidTile.new({x:x*32, y:y*32, value:score, block:false})
+      overlay << LabelTile.new({x: (x*32)+16, y: (y*32)+32, text: score, block:false})
+    end
+    overlay
+  end 
 end
