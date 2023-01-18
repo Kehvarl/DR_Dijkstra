@@ -88,31 +88,4 @@ class Dijkstra
     end
     return best
   end
-
-  # Draws the dijkstra map onto the screen - move to map routine
-  def render_map
-    overlay = []
-    self.grid.each do |node, score|
-      x,y = node
-      overlay << SolidTile.new({x:x*32, y:y*32, value:score, block:false})
-      overlay << LabelTile.new({x: (x*32)+16, y: (y*32)+32, text: score, block:false})
-    end
-    overlay
-  end 
-
-  # Deprecated
-  def render
-    out = []
-    (0..self.h).each do |y|
-      (0..self.w).each do |x|
-        if self.grid.has_key?([x,y])
-          c = self.grid[[x,y]]
-        else
-          c = 255
-        end
-        out << [x*16+640,y*16+320,16,16,c*16%255,c*8%255,c]
-      end
-    end
-    out
-  end
 end

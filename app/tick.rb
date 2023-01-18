@@ -13,7 +13,7 @@ def tick args
     args.state.d.calc_map
     p "done"
   end
-  overlay = args.state.d.render_map()
+  overlay = args.state.gmap.render_map(args.state.d)
   args.outputs.primitives  << args.state.gmap.render()
   args.outputs.primitives << overlay
 end
