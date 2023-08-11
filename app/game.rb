@@ -90,7 +90,7 @@ class GameMap
     lines.each_with_index do |line, line_index|
       line.chomp().split("").each_with_index do |char, char_index|
         if char == "."
-          self.tiles[line_index][char_index].path = 'sprites/tile/wall-0000.png'
+          self.tiles[line_index][char_index].path = 'app/sprites/tile/wall-0000.png'
           self.tiles[line_index][char_index].block = false
         end
       end
@@ -122,7 +122,7 @@ class GameMap
   def regen_sprites
     (0..h).each do |y|
       (0..w).each do |x|
-        self.tiles[y][x].path = "sprites/tile/wall-#{get_sprite(x,y)}.png"
+        self.tiles[y][x].path = "app/sprites/tile/wall-#{get_sprite(x,y)}.png"
       end
     end
     

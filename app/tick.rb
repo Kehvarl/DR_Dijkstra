@@ -3,7 +3,7 @@ def tick args
   args.state.d ||= Dijkstra.new({game_map: args.state.gmap, goals: [[9,9], [1,1], [29,9]]})
   if args.tick_count <= 0
     p "loading"
-    args.state.gmap.loadfile('mygame/data/map.dat')
+    args.state.gmap.loadfile('mygame/data/open.dat')
     p "calculating"
     args.state.d.calc_map
     p "done"
